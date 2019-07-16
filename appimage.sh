@@ -34,7 +34,7 @@ BINARY=$(find ./usr/bin/ -name emacs*  -type f -executable | head -n 1)
 # Copy desktop and icon file to AppDir for AppRun to pick them up
 ########################################################################
 
-wget -c "https://raw.githubusercontent.com/probonopd/Emacs.AppImage/master/AppRun" ; chmod a+x ./AppRun
+wget -c "https://raw.githubusercontent.com/MissingNoIOI/Emacs.AppImage/master/AppRun" ; chmod a+x ./AppRun
 get_desktop
 get_icon
 
