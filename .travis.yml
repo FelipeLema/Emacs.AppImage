@@ -4,6 +4,7 @@ sudo: true
 
 env:
   - RELEASE_VERSION=$(wget -q "https://ftp.gnu.org/pub/gnu/emacs/?C=M;O=D" -O - | grep -oe ">emacs-.*tar.gz" | head -n 1 | cut -d - -f 2 | sed -e 's|.tar.gz||g')
+  - CC="gcc-10"
   
 script:
   - wget -c "http://git.savannah.gnu.org/cgit/emacs.git/snapshot/emacs-master.tar.gz"
