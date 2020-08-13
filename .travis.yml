@@ -7,9 +7,7 @@ env:
   - CC="gcc-10"
   
 script:
-  - wget -c "http://git.savannah.gnu.org/cgit/emacs.git/snapshot/emacs-master.tar.gz"
-  - tar xf emacs-master.tar.gz
-  - rm emacs-master.tar.gz
+  - git clone https://git.savannah.gnu.org/git/emacs.git
   - cd emacs*
   - git checkout feature/native-comp
   - sudo apt-get build-dep emacs
@@ -21,7 +19,7 @@ script:
   - sudo make install
   - cd ..
   - sudo apt-get -y install squashfs-tools
-  - bash -ex appimage.sh || echo success
+  - bash -ex appimage.sh
   
 after_success:
   - readlink -f .
