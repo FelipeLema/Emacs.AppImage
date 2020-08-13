@@ -1,10 +1,6 @@
 language: C
 dist: focal
 sudo: true
-
-env:
-  - RELEASE_VERSION=$(wget -q "https://ftp.gnu.org/pub/gnu/emacs/?C=M;O=D" -O - | grep -oe ">emacs-.*tar.gz" | head -n 1 | cut -d - -f 2 | sed -e 's|.tar.gz||g')
-  - CC="gcc-10"
   
 script:
   - git clone https://git.savannah.gnu.org/git/emacs.git
@@ -15,7 +11,7 @@ script:
   - add-apt-repository ppa:ubuntu-toolchain-r/ppa && apt-get update -y && apt-get install -y gcc-10 libgccjit0 libgccjit-10-dev
   - ./autogen.sh
   - ./configure --prefix=/app --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp
-  - make -j$(nproc)
+  - CC="gcc-10" make -j$(nproc)
   - sudo make install
   - cd ..
   - sudo apt-get -y install squashfs-tools
