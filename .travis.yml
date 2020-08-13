@@ -11,7 +11,7 @@ script:
   - tar xf emacs-master.tar.gz
   - rm emacs-master.tar.gz
   - cd emacs*
-  - git checkout -b native-comp origin/feature/native-comp
+  - git checkout feature/native-comp
   - sudo apt-get build-dep emacs
   - sudo apt-get -y install libgtk-3-dev libwebkitgtk-3.0-dev libjansson-dev
   - add-apt-repository ppa:ubuntu-toolchain-r/ppa && apt-get update -y && apt-get install -y gcc-10 libgccjit0 libgccjit-10-dev
