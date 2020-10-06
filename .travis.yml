@@ -12,7 +12,7 @@ script:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/ppa && sudo apt-get update -y && sudo apt-get install -y gcc-10 libgccjit0 libgccjit-10-dev
   - ./autogen.sh
   - ./configure --prefix=/app --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp
-  - CC="gcc-10" make -j$(nproc)
+  - CC="gcc-10" make -j$(nproc) NATIVE_FULL_AOT=1
   - sudo make install
   - cd ..
   - sudo apt-get -y install squashfs-tools
