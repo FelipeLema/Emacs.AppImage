@@ -3,6 +3,7 @@ dist: focal
 sudo: true
   
 script:
+  - set -e
   - git clone https://git.savannah.gnu.org/git/emacs.git
   - cd emacs*
   - git checkout feature/native-comp
