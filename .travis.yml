@@ -1,6 +1,8 @@
 language: C
 dist: focal
 sudo: true
+env:
+  CC=gcc-10
   
 script:
   - set -e
@@ -15,7 +17,7 @@ script:
   - gcc-10 -xc -E -v -
   - ./autogen.sh
   - ./configure --prefix=/app --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp || (cat config.log; exit -1)
-  - CC="gcc-10" make -j$(nproc) NATIVE_FULL_AOT=1
+  - make -j$(nproc) NATIVE_FULL_AOT=1
   - sudo make install
   - cd ..
   - sudo apt-get -y install squashfs-tools
