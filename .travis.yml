@@ -26,18 +26,15 @@ matrix:
 before_install:
   - eval "${MATRIX_EVAL}"
 
-before_install:
+before_script:
   - eval "${MATRIX_EVAL}"
+  - sudo apt-get build-dep emacs
+
 
 script:
   - set -e
-  - git clone https://git.savannah.gnu.org/git/emacs.git
+  - git clone --depth 1 --single-branch --branch feature/native-comp https://git.savannah.gnu.org/git/emacs.git
   - cd emacs*
-  - git checkout feature/native-comp
-  - sudo apt-get build-dep emacs
-  - # check that libgccjit header can be found by gcc-10
-  - dpkg --listfiles libgccjit-10-dev
-  - echo -n | gcc-10 -xc -E -v -
   - ./autogen.sh
   - ./configure --prefix=/app --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp || (cat config.log; exit -1)
   - make -j$(nproc) NATIVE_FULL_AOT=1
