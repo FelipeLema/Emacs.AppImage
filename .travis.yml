@@ -1,17 +1,40 @@
 language: C
 dist: focal
 sudo: true
-env:
-  CC=gcc-10
-  
+
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            # packages for building emacs
+            - libgtk-3-dev
+            - libwebkit2gtk-4.0-dev
+            # C json parse
+            - libjansson-dev
+            # packages for gccemacs
+            - gcc-10
+            - libgccjit0
+            - libgccjit-10-dev
+      env:
+         - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+
 script:
   - set -e
   - git clone https://git.savannah.gnu.org/git/emacs.git
   - cd emacs*
   - git checkout feature/native-comp
   - sudo apt-get build-dep emacs
-  - sudo apt-get -y install libgtk-3-dev libwebkit2gtk-4.0-dev libjansson-dev
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/ppa && sudo apt-get update -y && sudo apt-get install -y gcc-10 libgccjit0 libgccjit-10-dev
   - # check that libgccjit header can be found by gcc-10
   - dpkg --listfiles libgccjit-10-dev
   - echo -n | gcc-10 -xc -E -v -
@@ -22,7 +45,7 @@ script:
   - cd ..
   - sudo apt-get -y install squashfs-tools
   - bash -ex appimage.sh
-  
+
 after_success:
   - readlink -f .
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
