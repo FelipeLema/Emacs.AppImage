@@ -7,7 +7,7 @@ jobs:
       - name: setup environment
         # gcc 10 available @ "Ubuntu > 16.xx": https://github.com/actions/virtual-environments/issues/1604#issuecomment-705498375
         run:
-          sudo apt-get install -qq -y libgtk-3-dev libwebkit2gtk-4.0-dev libjansson-dev gcc-10 libgccjit0 libgccjit-10-dev
+          sudo apt-get install -qq -y libgtk-3-dev libwebkit2gtk-4.0-dev libjansson-dev gcc-10 libgccjit0 libgccjit-10-dev &&
           sudo apt-get build-dep emacs
       - name: download
         run:
