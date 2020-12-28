@@ -12,15 +12,18 @@ jobs:
       - name: download
         run:
           git clone --depth 1 --single-branch --branch feature/native-comp https://git.savannah.gnu.org/git/emacs.git
-      - name: configure && build
+      - name: configure
         env:
           CC: gcc-10
           CXX: g++-10
-        run:
-          # ↓ does this propagate into next step?
-          cd emacs*
+        working-directory: ./emacs
+        run: |
           ./autogen.sh
           ./configure --prefix=/app --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp || (cat config.log; exit -1)
+
+      - name: build-and-install
+        working-directory: ./emacs
+        run: |
           make -j$(nproc) NATIVE_FULL_AOT=1
           sudo make install
           # WIP: pack using appimage.sh 
