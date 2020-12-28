@@ -1,0 +1,25 @@
+name: build-appimage
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup environment
+        # gcc 10 available @ "Ubuntu > 16.xx": https://github.com/actions/virtual-environments/issues/1604#issuecomment-705498375
+        run: sudo apt-get install -qq -y libgtk-3-dev libwebkit2gtk-4.0-dev libjansson-dev gcc-10 libgccjit0 libgccjit-10-dev
+        run: sudo apt-get build-dep emacs
+      - name: download
+        run:
+          git clone --depth 1 --single-branch --branch feature/native-comp https://git.savannah.gnu.org/git/emacs.git
+      - name: configure && build
+        env:
+          CC: gcc-10
+          CXX: g++-10
+        run:
+          # ↓ does this propagate into next step?
+          cd emacs*
+          ./autogen.sh
+          ./configure --prefix=/app --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp || (cat config.log; exit -1)
+          make -j$(nproc) NATIVE_FULL_AOT=1
+          sudo make install
+          # WIP: pack using appimage.sh 
