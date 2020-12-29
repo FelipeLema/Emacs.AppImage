@@ -1,0 +1,13 @@
+version: 1
+AppDir:
+  path: AppDir
+  app_info:
+    id: gcc-emacs
+    name: Emacs (gcc-emacs branch)
+    version: latest
+    exec: usr/bin/emacs
+    exec_args: $@
+AppImage:
+  arch: x86_64
+  update-information: !ENV ${UPDATE_INFO}
+  sign-key: None

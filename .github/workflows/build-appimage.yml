@@ -30,4 +30,12 @@ jobs:
         run: |
           make -j$(nproc) NATIVE_FULL_AOT=1
           sudo make install
-          # WIP: pack using appimage.sh 
+      - name: Build AppImage
+        uses: AppImageCrafters/build-appimage-action@master
+        env:
+          UPDATE_INFO: gh-releases-zsync|FelipeLema|Emacs.AppImage|latest|*x86_64.AppImage.zsync
+        with:
+          recipe: AppImageBuilder.yml
+      - uses: actions/upload-artifact@v2
+        with:
+          name: AppImage
