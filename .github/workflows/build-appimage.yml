@@ -49,7 +49,7 @@ jobs:
           export OUTPUT=emacs.appimage
 
           ./linuxdeploy-x86_64.AppImage --appdir ./AppDir \
-          -d ./AppDir/etc/emacs.desktop \
+          -d ./etc/emacs.desktop \
           -i ./etc/images/icons/hicolor/128x128/apps/emacs.png \
           --output appimage
         #uses: AppImageCrafters/build-appimage-action@master
