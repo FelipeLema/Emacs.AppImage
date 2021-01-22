@@ -32,6 +32,7 @@ jobs:
         run: |
           # not ./AppDir/usr ?
           export DESTDIR=AppDir
+          mkdir -p $DESTDIR
           make -j$(nproc) NATIVE_FULL_AOT=1
           make install
       - name: Build AppImage
