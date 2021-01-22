@@ -32,11 +32,8 @@ jobs:
         run: |
           # not ./AppDir/usr ?
           export DESTDIR=AppDir
-          #make -j$(nproc) NATIVE_FULL_AOT=1
-          # DESTDIR=AppDir make install
-          # WIP: ↑ don't fully compile until "Build AppImage" is stabilized
-          # ↓ only compile-and-then-pack info docs
-          make install-info
+          make -j$(nproc) NATIVE_FULL_AOT=1
+          make install
       - name: Build AppImage
         working-directory: ./emacs
         run: |
