@@ -25,13 +25,17 @@ jobs:
         run: |
           ./autogen.sh
           #                     ↓ target /usr according to AppImage docs
-          ./configure --prefix=/usr --without-selinux --with-x-toolkit=gtk3 --with-pdumper=no --with-modules --with-nativecomp || (cat config.log; exit -1)
+          ./configure --prefix=/usr --without-selinux --with-x-toolkit=gtk3 --with-pdumper=no --with-dumping=none --with-modules --with-nativecomp || (cat config.log; exit -1)
 
-      - name: build-and-install
+      - name: build
         working-directory: ./emacs
         run: |
-          export DESTDIR=AppDir
           make -j$(nproc) NATIVE_FULL_AOT=1
+      - name: install build to dest directory
+        working-directory: ./emacs
+        run: |
+          #              ↓ this matches DESTDIR above
+          export DESTDIR=AppDir
           make install
       - name: Build AppImage
         working-directory: ./emacs
