@@ -25,8 +25,13 @@ jobs:
         run: |
           ./autogen.sh
           #                     ↓ target /usr according to AppImage docs
-          ./configure --prefix=/usr --without-selinux --with-x-toolkit=gtk3 --with-pdumper=no --with-dumping=none --with-modules --with-nativecomp || (cat config.log; exit -1)
-
+          ./configure --prefix=/usr --without-selinux --with-x-toolkit=gtk3 --with-modules --with-nativecomp || (cat config.log; exit -1)
+      - name: prevent install from failing
+        working-directory: ./emacs
+        run: |
+          # This step is not supposed to even exist, but I'm trying out if it helps with ↓ at "install" step
+          # `/usr/bin/install -c -m 644 src/emacs.pdmp "AppDir/usr/libexec/emacs/28.0.50/x86_64-pc-linux-gnu"/emacs.pdmp`
+          mkdir -p AppDir/usr/libexec/emacs/28.0.50/x86_64-pc-linux-gnu/
       - name: build
         working-directory: ./emacs
         run: |
